@@ -1,0 +1,22 @@
+# Copy this file to .github/workflows/docs-dispatch.yml in your repo
+# to trigger documentation rebuilds when docs change.
+
+name: Trigger Docs Rebuild
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger docs repo rebuild
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.DOCS_PAT }}
+          repository: always-further/nono-docs
+          event-type: docs-update
+          client-payload: '{"repo": "${{ github.repository }}", "sha": "${{ github.sha }}"}'
