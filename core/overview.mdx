@@ -1,0 +1,37 @@
+---
+title: "Core Library"
+description: "The nono Rust library providing capability-based sandboxing primitives"
+---
+
+The `nono` crate is the foundational Rust library that provides:
+
+- **CapabilitySet** - Builder for defining filesystem and network capabilities
+- **Sandbox** - OS-level sandbox enforcement via Landlock (Linux) and Seatbelt (macOS)
+- **FFI bindings** - C API for language bindings (Python, TypeScript)
+
+## API Documentation
+
+For detailed API documentation, see [docs.rs/nono](https://docs.rs/nono).
+
+## Using the Library
+
+```rust
+use nono::{CapabilitySet, AccessMode, Sandbox};
+
+let mut caps = CapabilitySet::new();
+caps.allow_path("./data", AccessMode::Read)?;
+caps.block_network();
+
+Sandbox::apply(&caps)?;
+// Process is now sandboxed
+```
+
+## Building from Source
+
+```bash
+git clone https://github.com/always-further/nono
+cd nono
+cargo build --release
+```
+
+See the [Development Guide](/cli/development/index) for more details.

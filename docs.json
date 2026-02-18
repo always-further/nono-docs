@@ -1,0 +1,161 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Nono Docs",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/logo/favicon.png",
+  "colors": {
+    "primary": "#6366F1"
+  },
+  "appearance": {
+    "default": "dark"
+  },
+  "navbar": {
+    "links": [
+      { "label": "GitHub", "href": "https://github.com/always-further" }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Discord",
+      "href": "https://discord.gg/pPcjYzGvbS"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Overview",
+        "icon": "house",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["introduction", "quickstart"]
+          }
+        ]
+      },
+      {
+        "tab": "CLI",
+        "icon": "terminal",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["cli/getting_started/installation"]
+          },
+          {
+            "group": "Usage",
+            "pages": [
+              "cli/usage/index",
+              "cli/usage/secrets",
+              "cli/usage/examples",
+              "cli/usage/troubleshooting"
+            ]
+          },
+          {
+            "group": "Agents & Clients",
+            "pages": [
+              "cli/clients/quickstart",
+              "cli/clients/claude-code",
+              "cli/clients/opencode",
+              "cli/clients/openclaw"
+            ]
+          },
+          {
+            "group": "Security",
+            "pages": [
+              "cli/security/index",
+              "cli/security/profiles",
+              "cli/security/signing",
+              "cli/security/vs-containers",
+              "cli/security/landlock",
+              "cli/security/seatbelt",
+              "cli/security/vs-application"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": ["cli/usage/flags"]
+          },
+          {
+            "group": "Development",
+            "pages": ["cli/development/index", "cli/development/testing"]
+          }
+        ]
+      },
+      {
+        "tab": "Core",
+        "icon": "rust",
+        "groups": [
+          {
+            "group": "Rust Library",
+            "pages": ["core/overview"]
+          }
+        ]
+      },
+      {
+        "tab": "TypeScript",
+        "icon": "js",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "typescript/overview",
+              "typescript/quickstart"
+            ]
+          },
+          {
+            "group": "API Reference",
+            "pages": [
+              "typescript/capability-set",
+              "typescript/query-context",
+              "typescript/sandbox-state",
+              "typescript/functions",
+              "typescript/types"
+            ]
+          },
+          {
+            "group": "Examples",
+            "pages": ["typescript/examples"]
+          }
+        ]
+      },
+      {
+        "tab": "Python",
+        "icon": "python",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "python/overview",
+              "python/installation",
+              "python/quickstart"
+            ]
+          },
+          {
+            "group": "API Reference",
+            "pages": [
+              "python/api/capability-set",
+              "python/api/access-mode",
+              "python/api/query-context",
+              "python/api/sandbox-state",
+              "python/api/fs-capability",
+              "python/api/capability-source",
+              "python/api/support-info",
+              "python/api/functions"
+            ]
+          },
+          {
+            "group": "Examples",
+            "pages": ["python/examples"]
+          }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/always-further"
+    }
+  }
+}
