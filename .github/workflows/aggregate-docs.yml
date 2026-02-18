@@ -17,6 +17,12 @@ jobs:
   aggregate:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout nono-docs
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.DOCS_PAT }}
+          fetch-depth: 0
+
       - uses: mintlify/multirepo-action@v0.15
         with:
           token: ${{ secrets.DOCS_PAT }}
