@@ -32,26 +32,41 @@ jobs:
           git clone --depth 1 https://x-access-token:${GH_TOKEN}@github.com/always-further/nono-py.git nono-py
           git clone --depth 1 https://x-access-token:${GH_TOKEN}@github.com/always-further/nono-ts.git nono-ts
 
-      - name: Aggregate docs
+      - name: Aggregate docs and merge navigation
         run: |
-          # Create output directory
           mkdir -p output
 
-          # Copy base docs (introduction, quickstart, core, etc.)
+          # Copy base docs (introduction, quickstart, core, logo, etc.)
           cp -r base/docs/* output/
 
-          # Copy CLI docs from nono
+          # Copy content from sub-repos
           cp -r nono/docs/cli output/
-
-          # Copy Python docs from nono-py
           cp -r nono-py/docs/python output/
-
-          # Copy TypeScript docs from nono-ts
           cp -r nono-ts/docs/typescript output/
 
-          # List what we have
+          # Merge navigation from sub-repo docs.json into base docs.json
+          # Each sub-repo's navigation.groups replaces the matching tab in the base config
+          jq --slurpfile cli nono/docs/docs.json \
+             --slurpfile py nono-py/docs/docs.json \
+             --slurpfile ts nono-ts/docs/docs.json \
+             '
+             ($cli[0].navigation.groups) as $cli_groups |
+             ($py[0].navigation.groups) as $py_groups |
+             ($ts[0].navigation.groups) as $ts_groups |
+             .navigation.tabs |= map(
+               if .tab == "CLI" then .groups = $cli_groups
+               elif .tab == "Python" then .groups = $py_groups
+               elif .tab == "TypeScript" then .groups = $ts_groups
+               else .
+               end
+             )
+             ' output/docs.json > output/docs.json.tmp && mv output/docs.json.tmp output/docs.json
+
+          echo "Merged docs.json:"
+          cat output/docs.json | jq '.navigation.tabs[] | .tab, (.groups | length)'
+
           echo "Aggregated docs structure:"
-          find output -type f -name "*.mdx" | head -50
+          find output -type f -name "*.mdx" | sort
 
       - name: Push to docs branch
         run: |
