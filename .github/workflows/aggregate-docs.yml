@@ -23,7 +23,7 @@ jobs:
           token: ${{ secrets.DOCS_PAT }}
           fetch-depth: 0
 
-      - uses: mintlify/multirepo-action@v0.15
+      - uses: mintlify/multirepo-action@v0.16
         with:
           token: ${{ secrets.DOCS_PAT }}
           subdirectory: docs
