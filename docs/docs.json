@@ -16,7 +16,7 @@
   },
   "navbar": {
     "links": [
-      { "label": "GitHub", "href": "https://github.com/always-further" }
+      { "label": "GitHub", "href": "https://github.com/always-further/nono" }
     ],
     "primary": {
       "type": "button",
@@ -156,7 +156,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/always-further"
+      "github": "https://github.com/always-further/nono"
     }
   }
 }
