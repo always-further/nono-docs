@@ -18,7 +18,7 @@
     "links": [
       {
         "label": "GitHub",
-        "href": "https://github.com/always-further"
+        "href": "https://github.com/always-further/nono"
       }
     ],
     "primary": {
@@ -180,7 +180,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/always-further"
+      "github": "https://github.com/always-further/nono"
     }
   }
 }
