@@ -45,6 +45,12 @@ jobs:
           cp -r nono-py/docs/python output/
           cp -r nono-ts/docs/typescript output/
 
+          # Copy assets from sub-repos (if they exist)
+          if [ -d "nono/docs/assets" ]; then
+            mkdir -p output/assets
+            cp -r nono/docs/assets/* output/assets/
+          fi
+
           # Merge navigation from sub-repo docs.json into base docs.json
           # Each sub-repo's navigation.groups replaces the matching tab in the base config
           jq --slurpfile cli nono/docs/docs.json \
