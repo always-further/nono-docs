@@ -140,7 +140,8 @@
           {
             "group": "Examples",
             "pages": [
-              "typescript/examples"
+              "typescript/examples",
+              "typescript/demonstrator"
             ]
           }
         ]
