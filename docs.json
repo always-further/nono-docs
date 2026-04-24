@@ -70,7 +70,7 @@
               "cli/features/networking",
               "cli/features/credential-injection",
               "cli/features/environment",
-              "cli/features/policy-introspection",
+              "cli/features/profile-introspection",
               "cli/features/learn",
               "cli/features/trust"
             ]
