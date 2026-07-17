@@ -91,7 +91,9 @@
           {
             "group": "Secrets",
             "pages": [
-              "cli/features/credential-injection"
+              "cli/features/credential-injection",
+              "cli/features/sandboxed-oauth-logins",
+              "cli/features/spiffe"
             ]
           },
           {
@@ -111,6 +113,12 @@
             "group": "Rollback",
             "pages": [
               "cli/features/atomic-rollbacks"
+            ]
+          },
+          {
+            "group": "Resource Limits",
+            "pages": [
+              "cli/features/resource-limits"
             ]
           },
           {
@@ -143,7 +151,8 @@
             "group": "Development",
             "pages": [
               "cli/development/index",
-              "cli/development/testing"
+              "cli/development/testing",
+              "cli/development/oauth-capture-manual-qa"
             ]
           }
         ]
