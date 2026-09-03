@@ -282,6 +282,10 @@ Tool Sandbox authorizes a request by walking the caller's process ancestry to th
 
 Either way a severed caller resolves only to the command that spawned it, never the session, and is denied on any mismatch.
 
+macOS adds one case where the session is the answer: a launcher nono never mediated — a plain fork of the session root, such as an agent's status-line script that backgrounds a command and returns — leaves no marker naming it. nono then accepts the orphan under the **session** policy when it is a member of the session nono created for its direct child. Membership is proof of descent: a session can only be created, never joined.
+
+That session exists only when nono allocated a pty for the direct child, which it does when stdin, stdout and stderr are all a terminal. With any of them redirected — a piped or CI run — the direct child inherits nono's own session, shared with every other process in the user's terminal session, so membership proves nothing and such a caller is denied.
+
 The macOS helper is declared as `{ "argv": [...], "env": [...] }`. nono passes the daemon's context as a single JSON object on **stdin**:
 
 ```json
@@ -299,6 +303,17 @@ The macOS helper is declared as `{ "argv": [...], "env": [...] }`. nono passes t
 `candidate_pid` is the severed daemon nono walked to; `daemon_cwd`, `daemon_argv`, and `daemon_env` describe it, read from the kernel, and are omitted when unreadable. `daemon_env` carries only the keys named in `env` that are present in the daemon's environment; credential-named keys are always dropped. The helper prints the pid it believes is its server on stdout; nono accepts only if that equals `candidate_pid`.
 
 The helper runs **unsandboxed** in the supervisor. It MUST only read and emit a single pid (for example, the pid file the daemon writes) and MUST NOT execute workspace-controlled code. nono hardens the launch — the `argv` program is expanded (`~`, `$WORKDIR`, `$TMPDIR`, `$UID`, XDG) and must then be an absolute path, its environment is cleared to a minimal set, its working directory is neutral, and it is killed if it exceeds a short timeout — but cannot vet what the declared helper itself does.
+
+### macOS: mediated commands run in their own session
+
+To make that marker work for an ordinary orphan — a `child &` whose parent exits immediately, rather than a deliberate daemon — macOS Tool Sandbox puts **every** mediated launch in its own POSIX session (`setsid`) before exec. A session id cannot be joined after the fact, only created, which is what makes it unforgeable; a descendant keeps it across reparenting, so nono can still attribute a request whose ancestry walk has run off the top of the process tree.
+
+The cost is that a mediated command has **no controlling terminal**, and cannot reacquire one (the session's pty already belongs to the direct child's session, so `TIOCSCTTY` is refused):
+
+- `open("/dev/tty")` fails with `ENXIO`. A command that reads a secret straight from the terminal — `ssh` asking for a passphrase, `git` with a terminal credential helper — fails instead of prompting. Supply those through `credentials`, an `askpass` helper, or an agent socket rather than an interactive prompt.
+- The kernel delivers it no terminal job-control signals. nono relays Ctrl-C, Ctrl-\\, Ctrl-Z and terminal hangup to mediated commands itself, so interrupting and suspending a session still reaches them, but a mediated command cannot read or set the terminal's foreground process group.
+
+nono's own interactive prompts (command approval, profile save) run in the supervisor, which keeps the terminal, and are unaffected.
 
 ## Examples
 
